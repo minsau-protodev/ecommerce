@@ -34,7 +34,11 @@
                         >{{item.product.product_name}}</a
                       >
                       <p class="text-muted small">
-                        {{item.product.description}}
+                        {% if item.variations.all %}
+                          {% for variation in item.variations.all %}
+                            {{variation.variation_category}}: {{variation.variation_value}} <br />
+                          {% endfor %}
+                        {% endif %}
                       </p>
                     </figcaption>
                   </figure>
@@ -46,7 +50,7 @@
                       <div class="input-group-prepend">
                         <a
                           class="btn btn-light"
-                          href="{% url 'remove_cart' item.product.id %}"
+                          href="{% url 'decrease_cart' item.id %}"
                           id="button-plus"
                         >
                           <i class="fa fa-minus"></i>
@@ -60,7 +64,7 @@
                       <div class="input-group-append">
                         <a
                           class="btn btn-light"
-                          href="{% url 'add_cart' item.product.id %}"
+                          href="{% url 'increase_cart' item.id %}"
                           id="button-minus"
                         >
                           <i class="fa fa-plus"></i>
@@ -82,7 +86,7 @@
                 </td>
                 <td class="text-right">
                   <a
-                    href="{% url 'remove_cart_item' item.product.id %}"
+                    href="{% url 'remove_cart_item' item.id %}"
                     class="btn btn-danger"
                   >
                     Remove</a
